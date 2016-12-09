@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时钟</title>
+</head>
+<style>
+    .clock{
+        width: 500px;height: 500px;border: 1px solid red;border-radius: 50%;
+        position: absolute;left: 0;top: 0;bottom: 0;right: 0;margin: auto;
+        background: radial-gradient(#eee,#aaa);
+    }
+
+</style>
+<body>
+<div class="clock"></div>
+</body>
+<script>
+//    var time=new Date();
+//    var str="";
+//    str+=time.getFullYear()+"年";
+//    str+=time.getMonth()+"月";
+//    str+=time.getDate()+"日";
+//    str+=time.getHours()+"时";
+//    str+=time.getMinutes()+"分";
+//    str+=time.getSeconds()+"秒";//显示时间
+var box=document.getElementsByClassName("clock")[0]
+    //创建刻度
+    function msb (){
+        for(var i=0;i<60;i++){
+            if(i%5==0){
+                var w=8;h=15;
+            }else{
+                var w=4;h=10;
+            }
+            var div=document.createElement("div")
+            div.style.cssText="width:"+w+"px;height:"+h+"px;background:#000;position:absolute;left:0;top:0;"
+            div.style.transform="translate("+(500-w)/2+"px,0) rotate("+i*6+"deg)"
+            div.style.transformOrigin="center 250px";//基准点
+            box.appendChild(div);
+        }
+    }
+    msb();
+    //创建指针
+    var time=new Date();
+    function msd (w,h,c,a){
+            var div=document.createElement("div")
+            div.style.cssText="width:"+w+"px;height:"+h+"px;background:"+c+";transform:translate(250px,"+(500-h)/2+"px) rotate("+a+"deg);transform-origin:left center;position:absolute;left:0;top:0;"
+            box.appendChild(div);
+            return div;
+    }
+    var h=msd(80,6,"#000",time.getHours()*30-90+(time.getMinutes()*6)/12)
+    var m=msd(120,4,"#999999",time.getMinutes()*6-90)
+    var s=msd(160,2,"red",time.getSeconds()*6-90)
+    setInterval(function(){
+        var time=new Date();
+        h.style.cssText="width:80px;height:6px;background:#000;transform:translate(250px,"+(500-6)/2+"px) rotate("+(time.getHours()*30-90+(time.getMinutes()*6)/12)+"deg);transform-origin:left center;position:absolute;left:0;top:0;"
+        m.style.cssText="width:120px;height:4px;background:#999999;transform:translate(250px,"+(500-4)/2+"px) rotate("+(time.getMinutes()*6-90)+"deg);transform-origin:left center;position:absolute;left:0;top:0;"
+        s.style.cssText="width:160px;height:2px;background:red;transform:translate(250px,"+(500-2)/2+"px) rotate("+(time.getSeconds()*6-90)+"deg);transform-origin:left center;position:absolute;left:0;top:0;"
+    },1000)
+</script>
+</html>
